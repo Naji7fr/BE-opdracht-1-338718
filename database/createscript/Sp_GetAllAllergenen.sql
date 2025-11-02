@@ -1,0 +1,10 @@
+DROP PROCEDURE IF EXISTS sp_GetAllAllergenen;
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_GetAllAllergenen()
+BEGIN
+    SELECT * FROM Allergeen WHERE IsActief = 1;
+END$$
+
+DELIMITER ;

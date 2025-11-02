@@ -1,0 +1,48 @@
+<?php
+
+use App\Livewire\Settings\Appearance;
+use App\Livewire\Settings\Password;
+use App\Livewire\Settings\Profile;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AllergeenController;
+use App\Http\Controllers\MagazijnController;
+
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
+
+// De route naar het weergeven van alle allergenen
+Route::get('/allergeen', [AllergeenController::class, 'index'])->name('allergeen.index');
+
+// De route naar het formulier voor het toevoegen van de nieuwe allergeen
+Route::get('/allergeen/create', [AllergeenController::class, 'create'])->name('allergeen.create');
+
+// De route naar de store method waar het post array naartoe gestuurd wordt
+Route::post('/allergeen', [AllergeenController::class, 'store'])->name('allergeen.store');
+
+Route::delete('/allergeen/{id}', [AllergeenController::class, 'destroy'])->name('allergeen.destroy');
+
+Route::get('/allergeen/{id}/edit', [AllergeenController::class, 'edit'])->name('allergeen.edit');
+
+Route::put('/allergeen/{id}', [AllergeenController::class, 'update'])->name('allergeen.update');
+
+Route::get('/allergeen/{id}', [AllergeenController::class, 'show'])->name('allergeen.show');
+
+// Magazijn routes
+Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.index');
+Route::get('/magazijn/{id}/allergenen-info', [MagazijnController::class, 'allergenenInfo'])->name('magazijn.allergenenInfo');
+Route::get('/magazijn/{id}/leverantie-info', [MagazijnController::class, 'leverantieInfo'])->name('magazijn.leverantieInfo');
+
+Route::view('dashboard', 'dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+Route::middleware(['auth'])->group(function () {
+    Route::redirect('settings', 'settings/profile');
+
+    Route::get('settings/profile', Profile::class)->name('settings.profile');
+    Route::get('settings/password', Password::class)->name('settings.password');
+    Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+});
+
+require __DIR__.'/auth.php';

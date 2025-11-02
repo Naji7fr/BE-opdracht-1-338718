@@ -1,0 +1,12 @@
+DROP PROCEDURE IF EXISTS sp_GetAllergeenById;
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_GetAllergeenById(
+    IN p_Id SMALLINT
+)
+BEGIN
+    SELECT * FROM Allergeen WHERE Id = p_Id;
+END$$
+
+DELIMITER ;
